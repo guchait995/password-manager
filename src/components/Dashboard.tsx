@@ -28,7 +28,8 @@ const ThreeDotsIcon = () => (
 
 const Dashboard: React.FC = () => {
   const { username, logout, deleteAccount } = useAuth();
-  const { clearAllPasswords } = usePasswords();
+  const { clearAllPasswords, passwords, loading, reloadPasswords } =
+    usePasswords();
   const [activeTab, setActiveTab] = useState("passwords");
   const [darkMode, setDarkMode] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -36,6 +37,8 @@ const Dashboard: React.FC = () => {
   const [showImportExport, setShowImportExport] = useState(false);
   const [isModalClosing, setIsModalClosing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [showUpdateNotification, setShowUpdateNotification] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -88,6 +91,40 @@ const Dashboard: React.FC = () => {
   const handleDeleteAccountClick = () => {
     setShowDeleteConfirm(true);
     setIsModalClosing(false);
+    closeMenu();
+  };
+
+  const handleRefreshClick = () => {
+    setIsRefreshing(true);
+
+    // Check if service worker API is available
+    if ("serviceWorker" in navigator) {
+      // Force update check for all service workers
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        const updatePromises = registrations.map((registration) =>
+          registration
+            .update()
+            .catch((err) => console.error("Service worker update failed:", err))
+        );
+
+        Promise.all(updatePromises)
+          .then(() => {
+            console.log("Service worker update check complete");
+            // Hard reload the page after checking for updates
+            window.location.href = window.location.href;
+          })
+          .catch((error) => {
+            console.error("Error updating service workers:", error);
+            // Fallback to simple reload if update check fails
+            window.location.href = window.location.href;
+          });
+      });
+    } else {
+      // Fallback for browsers without service worker support
+      window.location.href = window.location.href;
+    }
+
+    // Close menu (though this won't execute due to page reload)
     closeMenu();
   };
 
@@ -205,6 +242,13 @@ const Dashboard: React.FC = () => {
                 >
                   Logout
                 </button>
+                <button
+                  onClick={handleRefreshClick}
+                  className="dropdown-item"
+                  role="menuitem"
+                >
+                  Check for Updates
+                </button>
               </div>
             </>
           )}
@@ -213,7 +257,20 @@ const Dashboard: React.FC = () => {
 
       <div className="main-content">
         {activeTab === "passwords" && (
-          <PasswordList onAddNew={handleAddNewClick} />
+          <>
+            {isRefreshing && (
+              <div className="refresh-indicator">
+                <div className="spinner"></div>
+                <span>Checking for updates...</span>
+              </div>
+            )}
+            {showUpdateNotification && (
+              <div className="update-notification">
+                <span>Checking for the latest updates...</span>
+              </div>
+            )}
+            <PasswordList onAddNew={handleAddNewClick} />
+          </>
         )}
         {activeTab === "add" && (
           <>

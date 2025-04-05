@@ -129,6 +129,63 @@ body {
   animation: spin 1s linear infinite;
 }
 
+/* Refresh indicator */
+.refresh-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--background-primary);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.refresh-indicator .spinner {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.75rem;
+  border-width: 3px;
+}
+
+.refresh-indicator span {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Update notification */
+.update-notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--success-light);
+  color: var(--background-primary);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.update-notification svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.75rem;
+}
+
+.update-notification span {
+  font-weight: 500;
+}
+
+.dark-mode .refresh-indicator {
+  background-color: var(--background-secondary);
+}
+
+.dark-mode .refresh-indicator span {
+  color: var(--text-light);
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -1210,16 +1267,22 @@ body {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
   text-align: left;
   background: none;
   border: none;
-  color: var(--text-primary);
   cursor: pointer;
-  transition: background-color 0.1s;
-  font-size: 0.95rem;
-  position: relative;
-  font-weight: 400;
+  color: var(--text-primary);
+  transition: background-color 0.2s;
+  line-height: 1.5;
+  border-radius: 0;
+  white-space: nowrap;
+}
+
+.dropdown-item svg {
+  margin-right: 0.75rem;
+  flex-shrink: 0;
 }
 
 .dark-mode .dropdown-item {

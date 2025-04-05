@@ -22,6 +22,7 @@ interface PasswordContextType {
   clearAllPasswords: () => Promise<void>;
   exportPasswords: () => Promise<string>;
   importPasswords: (jsonData: string) => Promise<void>;
+  reloadPasswords: () => Promise<void>;
 }
 
 const PasswordContext = createContext<PasswordContextType | undefined>(
@@ -144,6 +145,20 @@ export const PasswordProvider: React.FC<PasswordProviderProps> = ({
     setPasswords(entries);
   };
 
+  const reloadPasswords = async () => {
+    if (!masterKey) throw new Error("Not authenticated");
+
+    setLoading(true);
+    try {
+      const entries = await db.getAllPasswords(masterKey);
+      setPasswords(entries);
+    } catch (error) {
+      console.error("Error reloading passwords:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value = {
     passwords,
     loading,
@@ -153,6 +168,7 @@ export const PasswordProvider: React.FC<PasswordProviderProps> = ({
     clearAllPasswords,
     exportPasswords,
     importPasswords,
+    reloadPasswords,
   };
 
   return (
