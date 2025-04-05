@@ -295,7 +295,7 @@ const Dashboard: React.FC = () => {
             <div className="back-button-container">
               <button
                 onClick={() => setActiveTab("passwords")}
-                className="button button-small"
+                className="button button-secondary button-small"
               >
                 ← Back to Passwords
               </button>

@@ -42,18 +42,18 @@
 }
 
 :root {
-  --primary: #4361ee;
-  --primary-dark: #3a56d4;
-  --primary-light: #738eef;
-  --secondary: #7209b7;
-  --secondary-dark: #6308a0;
-  --secondary-light: #8e32d6;
-  --danger: #e63946;
-  --danger-dark: #d1232f;
-  --danger-light: #f07781;
-  --success: #38b000;
-  --success-dark: #2d9100;
-  --success-light: #5ccc29;
+  --primary: #0a2463;
+  --primary-dark: #081a4a;
+  --primary-light: #1a397c;
+  --secondary: #6c757d;
+  --secondary-dark: #5a6268;
+  --secondary-light: #868e96;
+  --danger: #dc3545;
+  --danger-dark: #c82333;
+  --danger-light: #e25563;
+  --success: #0a2463;
+  --success-dark: #081a4a;
+  --success-light: #1a397c;
   --background-primary: #ffffff;
   --background-secondary: #f8f9fa;
   --background-hover: #e9ecef;
@@ -927,10 +927,14 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
-  padding: 0.2rem;
-  opacity: 0.7;
-  flex-shrink: 0;
+  margin-left: 6px;
+  opacity: 0.6;
+  transition: opacity 0.2s, color 0.2s;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
 }
 
 .copy-button:hover {
@@ -1389,7 +1393,14 @@ body {
 
 /* Back Button Container */
 .back-button-container {
+  display: flex;
+  justify-content: flex-start;
   margin-bottom: 1rem;
+  width: 100%;
+}
+
+.back-button-container .button {
+  margin-right: auto;
 }
 
 /* Nested Modal */

@@ -13,7 +13,7 @@ const PencilIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     width="16"
     height="16"
-    fill="none"
+    fill="currentColor"
     viewBox="0 0 24 24"
     stroke="currentColor"
     strokeWidth="2"
@@ -49,7 +49,7 @@ const CloseIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     width="16"
     height="16"
-    fill="none"
+    fill="currentColor"
     viewBox="0 0 24 24"
     stroke="currentColor"
     strokeWidth="2"
@@ -59,6 +59,21 @@ const CloseIcon = () => (
       strokeLinejoin="round"
       d="M6 18L18 6M6 6l12 12"
     />
+  </svg>
+);
+
+const CopyIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
   </svg>
 );
 
@@ -354,7 +369,7 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
                         className="copy-button"
                         aria-label="Copy username"
                       >
-                        📋
+                        <CopyIcon />
                       </button>
                     </div>
                   </td>
@@ -371,7 +386,7 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
                         className="copy-button"
                         aria-label="Copy password"
                       >
-                        📋
+                        <CopyIcon />
                       </button>
                     </div>
                   </td>
