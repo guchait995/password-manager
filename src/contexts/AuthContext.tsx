@@ -12,6 +12,7 @@ interface AuthContextType {
   isRegistered: boolean;
   username: string | null;
   masterKey: string | null;
+  savedUsername: string | null;
   login: (username: string, password: string) => boolean;
   register: (username: string, pin: string) => void;
   logout: () => void;
@@ -56,6 +57,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Check if the user has registered
   const isRegistered = authService.isRegistered();
+
+  // Get the saved username
+  const savedUsername = authService.getSavedUsername();
 
   const register = (username: string, pin: string): void => {
     authService.register(username, pin);
@@ -115,6 +119,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isRegistered,
     username,
     masterKey,
+    savedUsername,
     login,
     register,
     logout,

@@ -53,6 +53,12 @@ class AuthService {
     return authData ? authData.isRegistered : false;
   }
 
+  // Get saved username
+  public getSavedUsername(): string | null {
+    const authData = this.getAuthData();
+    return authData ? authData.username : null;
+  }
+
   // Register new user
   public register(username: string, pin: string): void {
     const salt = CryptoJS.lib.WordArray.random(128 / 8).toString();

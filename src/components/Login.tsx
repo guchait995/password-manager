@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 const Login: React.FC = () => {
+  const { isRegistered, savedUsername, login } = useAuth();
   const [username, setUsername] = useState("");
   const [pin, setPin] = useState("");
   const [showPin, setShowPin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { login } = useAuth();
+
+  // Pre-populate username field if registered
+  useEffect(() => {
+    if (isRegistered && savedUsername) {
+      setUsername(savedUsername);
+    }
+  }, [isRegistered, savedUsername]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +25,7 @@ const Login: React.FC = () => {
       const success = login(username, pin);
 
       if (!success) {
-        setError("Invalid username or PIN");
+        setError(isRegistered ? "Invalid PIN" : "Invalid username or PIN");
       }
     } catch (error) {
       setError("Something went wrong");
@@ -38,20 +45,34 @@ const Login: React.FC = () => {
         {error && <div className="alert alert-error">{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username" className="label">
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
-              className="input"
-              required
-            />
-          </div>
+          {isRegistered && savedUsername ? (
+            <div className="form-group">
+              <label className="label">Username</label>
+              <div className="user-display">
+                <span className="username-pill">{savedUsername}</span>
+              </div>
+              <input
+                type="hidden"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+          ) : (
+            <div className="form-group">
+              <label htmlFor="username" className="label">
+                Username
+              </label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter username"
+                className="input"
+                required
+              />
+            </div>
+          )}
 
           <div className="form-group">
             <label htmlFor="pin" className="label">
@@ -68,6 +89,7 @@ const Login: React.FC = () => {
                 required
                 pattern="[0-9]*"
                 inputMode="numeric"
+                autoFocus={!!(isRegistered && savedUsername)}
               />
               <button
                 type="button"

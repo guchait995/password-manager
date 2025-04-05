@@ -3,12 +3,9 @@ import CryptoJS from "crypto-js";
 
 export interface PasswordEntry {
   id?: number;
-  title: string;
   username: string;
   password: string;
   website?: string;
-  notes?: string;
-  category?: string;
   dateCreated: Date;
   dateModified: Date;
 }
@@ -18,8 +15,8 @@ class PasswordDatabase extends Dexie {
 
   constructor() {
     super("PasswordManagerDB");
-    this.version(1).stores({
-      passwords: "++id,title,username,category,dateCreated,dateModified",
+    this.version(2).stores({
+      passwords: "++id,username,website,dateCreated,dateModified",
     });
     this.passwords = this.table("passwords");
   }
@@ -72,13 +69,30 @@ class PasswordDatabase extends Dexie {
   // Export all password data
   async exportData(masterKey: string): Promise<string> {
     const entries = await this.getAllPasswords(masterKey);
-    return JSON.stringify(entries);
+    // Only export essential fields
+    const simplifiedEntries = entries.map((entry) => ({
+      username: entry.username,
+      password: entry.password,
+      website: entry.website || "",
+    }));
+    return JSON.stringify(simplifiedEntries);
   }
 
   // Import password data
   async importData(jsonData: string, masterKey: string): Promise<void> {
     try {
-      const entries: PasswordEntry[] = JSON.parse(jsonData);
+      const importedData = JSON.parse(jsonData);
+      const now = new Date();
+
+      // Handle data imports with the simplified format
+      const entries: PasswordEntry[] = importedData.map((item: any) => ({
+        username: item.username,
+        password: item.password,
+        website: item.website || "",
+        dateCreated: item.dateCreated ? new Date(item.dateCreated) : now,
+        dateModified: item.dateModified ? new Date(item.dateModified) : now,
+      }));
+
       await this.transaction("rw", this.passwords, async () => {
         for (const entry of entries) {
           const encryptedEntry = this.encryptEntry(entry, masterKey);

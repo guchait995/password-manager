@@ -37,12 +37,9 @@ const AddPassword: React.FC<AddPasswordProps> = ({ onSaved }) => {
 
     try {
       addPassword({
-        title: website || "Unnamed Entry", // Use default if empty
         username: username || "", // Allow empty username
         password,
         website: website || "", // Allow empty website
-        category: "",
-        notes: "",
       });
 
       // Reset form

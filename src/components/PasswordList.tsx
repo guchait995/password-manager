@@ -28,7 +28,7 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
 
   // Edit form state
   const [editForm, setEditForm] = useState({
-    title: "",
+    website: "",
     username: "",
     password: "",
     confirmPassword: "",
@@ -38,7 +38,9 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
     setFilteredPasswords(
       passwords.filter(
         (pass) =>
-          pass.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (pass.website || "")
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
           pass.username.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
@@ -46,7 +48,9 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
     // Update suggestions based on search term and existing passwords
     if (searchTerm.length > 0) {
       // Get unique website titles from user's passwords
-      const uniqueWebsites = [...new Set(passwords.map((pass) => pass.title))];
+      const uniqueWebsites = [
+        ...new Set(passwords.map((pass) => pass.website || "").filter(Boolean)),
+      ];
 
       // Filter websites that match the search term
       const matchingSuggestions = uniqueWebsites
@@ -86,7 +90,7 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
   const openEditModal = (password: PasswordEntry) => {
     setSelectedPassword(password);
     setEditForm({
-      title: password.title,
+      website: password.website || "",
       username: password.username,
       password: password.password,
       confirmPassword: password.password,
@@ -108,12 +112,9 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
 
     try {
       updatePassword(selectedPassword.id, {
-        title: editForm.title,
         username: editForm.username,
         password: editForm.password,
-        website: editForm.title, // Use title as website
-        category: selectedPassword.category || "",
-        notes: selectedPassword.notes || "",
+        website: editForm.website,
       });
 
       setShowEditModal(false);
@@ -260,7 +261,7 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
             <tbody>
               {filteredPasswords.map((pass) => (
                 <tr key={pass.id}>
-                  <td>{pass.title}</td>
+                  <td>{pass.website || ""}</td>
                   <td>
                     <div className="copy-wrapper">
                       <span className="text-cell">{pass.username}</span>
@@ -325,18 +326,17 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
             <div className="modal-body">
               <form onSubmit={handleEditSubmit}>
                 <div className="form-group">
-                  <label htmlFor="title" className="label">
+                  <label htmlFor="website" className="label">
                     Website
                   </label>
                   <input
                     type="text"
-                    id="title"
+                    id="website"
                     className="input"
-                    value={editForm.title}
+                    value={editForm.website}
                     onChange={(e) =>
-                      setEditForm({ ...editForm, title: e.target.value })
+                      setEditForm({ ...editForm, website: e.target.value })
                     }
-                    required
                   />
                 </div>
                 <div className="form-group">

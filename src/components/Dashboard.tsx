@@ -17,6 +17,8 @@ const ThreeDotsIcon = () => (
     strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
+    aria-hidden="true"
+    focusable="false"
   >
     <circle cx="12" cy="12" r="1.5" />
     <circle cx="12" cy="5" r="1.5" />
@@ -146,8 +148,11 @@ const Dashboard: React.FC = () => {
             ref={buttonRef}
             onClick={toggleMenu}
             className="button button-icon"
-            aria-label="Menu"
+            aria-label="Open menu"
+            aria-expanded={showMenu}
+            aria-controls="header-dropdown-menu"
             title="Menu"
+            style={{ display: "flex", visibility: "visible" }}
           >
             <ThreeDotsIcon />
           </button>
@@ -157,30 +162,47 @@ const Dashboard: React.FC = () => {
               <div
                 className={`menu-backdrop ${isMenuClosing ? "closing" : ""}`}
                 onClick={closeMenu}
+                aria-hidden="true"
               ></div>
               <div
+                id="header-dropdown-menu"
                 className={`dropdown-menu ${isMenuClosing ? "closing" : ""}`}
                 ref={menuRef}
+                role="menu"
               >
-                <button onClick={handleAddNewClick} className="dropdown-item">
+                <button
+                  onClick={handleAddNewClick}
+                  className="dropdown-item"
+                  role="menuitem"
+                >
                   Add New Password
                 </button>
                 <button
                   onClick={handleImportExportClick}
                   className="dropdown-item"
+                  role="menuitem"
                 >
                   Import/Export
                 </button>
-                <button onClick={toggleDarkMode} className="dropdown-item">
+                <button
+                  onClick={toggleDarkMode}
+                  className="dropdown-item"
+                  role="menuitem"
+                >
                   {darkMode ? "Light Mode" : "Dark Mode"}
                 </button>
                 <button
                   onClick={handleDeleteAccountClick}
                   className="dropdown-item danger-item"
+                  role="menuitem"
                 >
                   Delete Account
                 </button>
-                <button onClick={logout} className="dropdown-item">
+                <button
+                  onClick={logout}
+                  className="dropdown-item"
+                  role="menuitem"
+                >
                   Logout
                 </button>
               </div>

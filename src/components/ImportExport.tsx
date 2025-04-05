@@ -142,9 +142,19 @@ const ImportExport: React.FC<ImportExportProps> = ({ onClose }) => {
         <div className="section">
           <h3 className="section-title">Import Passwords</h3>
           <p className="section-description">
-            Import passwords from a JSON file. The file should match the format
-            of an exported file.
+            Import passwords from a JSON file in the following format:
           </p>
+          <pre className="code-sample">
+            {`[
+  {
+    "username": "your_username",
+    "password": "your_password",
+    "website": "website.com"
+  },
+  ...
+]`}
+          </pre>
+          <p className="note">Only these essential fields are required.</p>
           <input
             type="file"
             accept=".json"
