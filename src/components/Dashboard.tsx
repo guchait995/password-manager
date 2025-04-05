@@ -26,6 +26,24 @@ const ThreeDotsIcon = () => (
   </svg>
 );
 
+// Close icon for modal headers
+const CloseIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+);
+
 const Dashboard: React.FC = () => {
   const { username, logout, deleteAccount } = useAuth();
   const { clearAllPasswords, passwords, loading, reloadPasswords } =
@@ -294,7 +312,7 @@ const Dashboard: React.FC = () => {
             <div className="modal-header">
               <h3>Import and Export</h3>
               <button onClick={closeModal} className="modal-close">
-                ×
+                <CloseIcon />
               </button>
             </div>
             <ImportExport onClose={closeModal} />
@@ -309,7 +327,7 @@ const Dashboard: React.FC = () => {
             <div className="modal-header">
               <h3>Delete Account</h3>
               <button onClick={closeModal} className="modal-close">
-                ×
+                <CloseIcon />
               </button>
             </div>
             <div className="modal-body">

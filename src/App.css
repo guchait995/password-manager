@@ -736,8 +736,9 @@ body {
   color: var(--text-primary);
 }
 
-.close-button {
-  background: none;
+.close-button,
+.modal-close {
+  background: transparent;
   border: none;
   cursor: pointer;
   color: var(--text-secondary);
@@ -749,8 +750,10 @@ body {
   transition: background-color 0.2s;
 }
 
-.close-button:hover {
+.close-button:hover,
+.modal-close:hover {
   background-color: var(--background-hover);
+  color: var(--text-primary);
 }
 
 .modal-body {

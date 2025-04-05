@@ -444,7 +444,7 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
                   <label htmlFor="password" className="label">
                     Password
                   </label>
-                  <div className="input-group">
+                  <div className="password-input-wrapper">
                     <input
                       type={showSelectedPassword ? "text" : "password"}
                       id="password"
@@ -457,12 +457,26 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
                     />
                     <button
                       type="button"
-                      className="button button-secondary"
+                      className="eye-toggle"
                       onClick={() =>
                         setShowSelectedPassword(!showSelectedPassword)
                       }
+                      aria-label={
+                        showSelectedPassword ? "Hide password" : "Show password"
+                      }
                     >
-                      {showSelectedPassword ? "Hide" : "Show"}
+                      {showSelectedPassword ? (
+                        <svg viewBox="0 0 24 24">
+                          <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                          <line x1="1" y1="1" x2="23" y2="23"></line>
+                          <path d="M1 12s4-8 11-8c7 0 11 8 11 8-1.18 1.56-2.91 3.37-5 4.64"></path>
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24">
+                          <path d="M1 12s4-8 11-8c7 0 11 8 11 8-1.73 2.3-4.4 4.6-7 6-2.6-1.4-5.27-3.7-7-6z"></path>
+                          <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -490,8 +504,9 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
                     type="button"
                     className="button button-danger"
                     onClick={handleDelete}
+                    aria-label="Delete password"
                   >
-                    <BinIcon /> Delete
+                    <BinIcon />
                   </button>
                   <div className="spacer"></div>
                   <button
@@ -515,7 +530,7 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
             <div className="modal-header">
               <h3>{viewPasswordDetails.website}</h3>
               <button
-                className="close-button"
+                className="modal-close"
                 onClick={() => setShowViewModal(false)}
                 aria-label="Close"
               >
@@ -551,30 +566,14 @@ const PasswordList: React.FC<PasswordListProps> = ({ onAddNew }) => {
                     }
                   >
                     {showViewPassword ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
+                      <svg viewBox="0 0 24 24">
+                        <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
                         <line x1="1" y1="1" x2="23" y2="23"></line>
+                        <path d="M1 12s4-8 11-8c7 0 11 8 11 8-1.18 1.56-2.91 3.37-5 4.64"></path>
                       </svg>
                     ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <svg viewBox="0 0 24 24">
+                        <path d="M1 12s4-8 11-8c7 0 11 8 11 8-1.73 2.3-4.4 4.6-7 6-2.6-1.4-5.27-3.7-7-6z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
                       </svg>
                     )}
