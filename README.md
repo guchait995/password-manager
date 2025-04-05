@@ -15,6 +15,8 @@ A modern, secure password manager built with React, TypeScript, and Vite. This a
 - **Responsive Design**: Optimized for both desktop and mobile devices
 - **Account Management**: Change credentials or delete your account
 - **Copy to Clipboard**: One-click copying of usernames and passwords
+- **PWA Support**: Check for updates to ensure you're using the latest version
+- **Navy Blue UI**: Modern, clean interface with a consistent color scheme
 
 ## Getting Started
 
@@ -58,6 +60,7 @@ A modern, secure password manager built with React, TypeScript, and Vite. This a
 5. **Edit/Delete**: Manage your saved passwords as needed
 6. **Import/Export**: Access the three-dot menu to import or export your data
 7. **Account Management**: Delete your account or change credentials as needed
+8. **Check for Updates**: Use the menu option to check for and install the latest updates
 
 ## Security Features
 
@@ -76,6 +79,7 @@ A modern, secure password manager built with React, TypeScript, and Vite. This a
 - **Crypto-JS**: Password encryption and hashing
 - **CSS Custom Properties**: Theming and responsive design
 - **Context API**: Global state management
+- **Service Workers**: PWA functionality with update support
 
 ## Future Enhancements
 
